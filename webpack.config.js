@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: [
-    'react-hot-loader/patch',
+    // 'react-hot-loader/patch',
     './src/index.jsx'
   ],
   module: {
@@ -28,13 +28,13 @@ module.exports = {
     filename: 'bundle.js'
   },
   stats: 'errors-only',
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-  ],
+  // plugins: [
+  //   new webpack.HotModuleReplacementPlugin(),
+  // ],
   devtool: 'source-map',
   target: 'web',
-  devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    hot: true
-  }
+  // devServer: {
+  //   contentBase: path.resolve(__dirname, 'dist'),
+  //   hot: true
+  // }
 }

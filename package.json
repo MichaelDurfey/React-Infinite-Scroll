@@ -4,7 +4,8 @@
   "description": "Boilerplate",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development"
+    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
+    "build": "webpack -p --watch"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,10 @@
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "css-loader": "^0.28.11",
+    "express": "^4.16.3",
+    "nodemon": "^1.17.5",
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
   }
