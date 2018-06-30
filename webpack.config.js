@@ -27,7 +27,7 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js'
   },
-  stats: 'errors-only',
+  // stats: 'errors-only',
   // plugins: [
   //   new webpack.HotModuleReplacementPlugin(),
   // ],

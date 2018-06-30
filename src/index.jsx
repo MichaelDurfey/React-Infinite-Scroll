@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import NavBar from './components/Navbar';
+import Input from './components/Search';
+import List from './components/List';
 import './index.css';
 import { callWalmart } from './httpHelpers/walmart'
 
@@ -11,8 +13,8 @@ class App extends React.Component {
     this.state = {
       data: [],
       requestSent: false,
-      recordHeight: 500,
-      recordsPerBody: 60,
+      recordHeight: 50,
+      recordsPerBody: 10,
       total: 0,
       visibleStart: 0,
       visibleEnd: 0,
@@ -22,54 +24,19 @@ class App extends React.Component {
     }
   }
 
-  scrollState(scroll){
-    var visibleStart = Math.floor(scroll / this.state.recordHeight);
-    var visibleEnd = Math.min(visibleStart + this.state.recordsPerBody, this.state.total - 1);
-
-    var displayStart = Math.max(0, Math.floor(scroll / this.state.recordHeight) - this.state.recordsPerBody * 1.5);
-    var displayEnd = Math.min(displayStart + 4 * this.state.recordsPerBody, this.state.total - 1);
-
-    this.setState({
-        visibleStart: visibleStart,
-        visibleEnd: visibleEnd,
-        displayStart: displayStart,
-        displayEnd: displayEnd,
-        scroll: scroll
-    });
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleOnScroll);
+  componentDidMount(){
     this.fetchData()
   }
 
-  componentWillUnMount() {
-    window.removeEventListener('scroll', this.handleOnScroll);
+  fetchData(query) {
+    callWalmart(query)
+      .then(data => {
+        this.setState({data: data.data.products})
+      })
   }
 
-  queryFetch() {
-    if (this.state.requestSent) {
-      return;
-    }
-
-    setTimeout(this.fetchData, 2000);
-
-    this.setState({requestSent: true});
-  }
-
-  fetchData() {
-    callWalmart()
-  }
-
-  handleOnScroll(event){
-    var scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-    var scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
-    var clientHeight = document.documentElement.clientHeight || window.innerHeight;
-    var scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
-    console.log(scrollTop, ScrollHeight, clientHeight, event)
-    if (scrolledToBottom) {
-      this.queryFetch();
-    }
+  handleSearch = (query) => {
+    this.fetchData(query)
   }
 
   render() {
@@ -77,7 +44,8 @@ class App extends React.Component {
     <div>
       <NavBar />
       <div className="container">
-        Hello React!!!
+        <Input handleSubmit={this.handleSearch}/>
+        <List data={this.state.data}/>
       </div>
     </div>
     );

@@ -1,8 +1,8 @@
 const axios = require('axios');
 
-const callWalmart = () => {
-  return axios.get('/walmart')
-    .then(data => console.log(data));
+const callWalmart = (query) => {
+  // return axios.get('/walmart', {params: { query }})
+  return axios.get('/walmart', {params: { query }})
 }
 
 export { callWalmart };
