@@ -10,7 +10,7 @@ html, body {
 #scrollWindow {
   height: 480px;
   width: 650px;
-  overflow: auto;
+  overflow: scroll;
 }
 
 .product{
