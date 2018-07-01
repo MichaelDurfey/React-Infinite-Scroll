@@ -1,15 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
 #scrollWindow {
-  height: 180px;
-  width: 250px;
+  height: 480px;
+  width: 650px;
+  overflow: scroll;
 }
 
 .product{
   height: 80px;
-  width: 375px;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  border: solid 1px black;
 }
 
-.productImage {
+.imageContainer > img {
   margin-left: 10px;
-  height: 
+  margin-right: 5px;
+  margin-bottom: 5px;
+  height: 60px;
+  width: 60px;
 }
 

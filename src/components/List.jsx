@@ -22,10 +22,15 @@ class List extends Component {
     return (
       <div>
         <div id="scrollWindow" ref={this.scrollEl}>
-            {this.props.data.map(i => <div className="product">
-              {i.basic.name}
-              <image src={i.basic.image.thumbnail} />
-              </div>)}
+            {this.props.data.map((i, index) => (
+              <div className="product">
+                <div className="imageContainer">
+                  <img src={i.basic.image.thumbnail} alt="ImagePic">
+                  </img>
+                </div>
+                {i.basic.name}              
+              </div>
+            ))}
         </div>
       </div>
     )
