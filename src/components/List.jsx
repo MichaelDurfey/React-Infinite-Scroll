@@ -17,14 +17,19 @@ class List extends Component {
 
   scrollState() {
     const el = document.getElementById('scrollWindow')
-    const 
+    let offset = el.scrollHeight - el.parentNode.clientHeight;
+    console.log(offset, el.scrollTop)
+    // console.log(el.scrollBy, el.scrollTop, el.scrollHeight, el.offsetParent)
   }
 
   render() {
+    const list = [];
+
+
     return (
       <div>
         <div id="scrollWindow">
-            {this.props.data.map((i, index) => (
+            {this.props.data.slice(minVisIndex, maxVisIndex).map((i, index) => (
               <div key={index} className="product">
                 <div className="imageContainer">
                   <img src={i.basic.image.thumbnail} alt="ImagePic">
