@@ -4,26 +4,28 @@ class List extends Component {
   constructor() {
     super()
     this.scrollEl = React.createRef();
+    this.productHeight = 80;
+    this.scrollWindowHeight = 480;
   }
   componentDidMount() {
-    window.addEventListener('scroll', this.scrollState);
+    document.getElementById('scrollWindow').addEventListener('scroll', this.scrollState);
   }
 
   componentWillUnMount() {
-    window.removeEventListener('scroll', this.scrollState);
+    document.getElementById('scrollWindow').removeEventListener('scroll', this.scrollState);
   }
 
   scrollState() {
-    const el = this.scrollEl;
-    console.log(el)
+    const el = document.getElementById('scrollWindow')
+    const 
   }
 
   render() {
     return (
       <div>
-        <div id="scrollWindow" ref={this.scrollEl}>
+        <div id="scrollWindow">
             {this.props.data.map((i, index) => (
-              <div className="product">
+              <div key={index} className="product">
                 <div className="imageContainer">
                   <img src={i.basic.image.thumbnail} alt="ImagePic">
                   </img>
