@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Grid } from 'react-virtualized';
 
 class List extends Component {
   constructor(props) {
@@ -13,28 +14,61 @@ class List extends Component {
   }
 
   componentDidMount() {
-    document.getElementById('scrollWindow').addEventListener('scroll', () => this.scrollState());
+    document.getElementById('scrollWindow').addEventListener('scroll', this.scrollState);
     this.setMax()
   }
 
   componentWillUnMount() {
-    document.getElementById('scrollWindow').removeEventListener('scroll', () => this.scrollState());
+    document.getElementById('scrollWindow').removeEventListener('scroll', this.scrollState);
   }
 
   setMax() {
-    let max = this.state.scrollWindowHeight / this.state.productHeight + 2;
+    let max = this.state.scrollWindowHeight / this.state.productHeight + 4;
     this.setState({
       maxVisIndex: max,
     })
   }
 
-  scrollState() {
+  debounce(func, wait, immediate) {
+    var timeout;
+    return function () {
+      var context = this;
+      var args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) func.call()
+      };
+  
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+  
+      timeout = setTimeout(later, wait);
+    
+      if (callNow) func.call();
+    };
+  }
+
+  scrollState = debounce(() => {
     const el = document.getElementById('scrollWindow')
     let offset = el.scrollHeight - el.parentNode.clientHeight;
     console.log(el.scrollTop, this.state.scrollTop, this.state)
-    // if (){}
+    // console.log(this.state.scrollTop + 160)
+    if (el.scrollTop >= 70 && this.state.maxVisIndex < this.props.data.length){
+      this.setState({
+        maxVisIndex: this.state.maxVisIndex += 2,
+        minVisIndex: this.state.minVisIndex += 2,
+        scrollTop: el.scrollTop
+      })
+    }
+
+    if (el.scrollTop < 20 && this.state.minVisIndex > 0) {
+      this.setState({
+        minVisIndex: this.state.minVisIndex -= 2,
+        maxVisIndex: this.state.maxVisIndex -= 2,
+      })
+    }
   
-  }
+  }, 100)
 
   render() {
     const list = [];
@@ -43,8 +77,7 @@ class List extends Component {
         const node = (
             <div key={this.props.data[i]} className="product">
               <div className="imageContainer">
-                <img src={this.props.data[i].basic.image.thumbnail} alt="ImagePic">
-                </img>
+                <img src={this.props.data[i].basic.image.thumbnail} alt="ImagePic" />
               </div>
               {this.props.data[i].basic.name}              
             </div>
@@ -56,15 +89,6 @@ class List extends Component {
     return (
       <div>
         <div id="scrollWindow">
-            {/* {this.props.data.slice(this.state.minVisIndex, this.state.maxVisIndex).map((i, index) => (
-              <div key={index} className="product">
-                <div className="imageContainer">
-                  <img src={i.basic.image.thumbnail} alt="ImagePic">
-                  </img>
-                </div>
-                {i.basic.name}              
-              </div>
-            ))} */}
             { list }
         </div>
       </div>
