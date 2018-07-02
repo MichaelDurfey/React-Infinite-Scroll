@@ -8,14 +8,14 @@ html, body {
 }
 
 #scrollWindow {
-  height: 480px;
-  width: 650px;
+  /* height: 480px;
+  width: 650px; */
   overflow: scroll;
 }
 
 .product{
-  height: 80px;
-  width: 500px;
+  /* height: 80px; */
+  /* width: 500px; */
   display: flex;
   align-items: center;
   border: solid 1px black;
