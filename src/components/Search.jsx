@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 
+const inputStyling = {
+  width: '200px',
+  borderRadius: '5px',
+  marginBottom: '5px',
+}
+
 class Search extends Component {
   constructor() {
     super();
@@ -20,7 +26,19 @@ class Search extends Component {
   render() {
     return (
       <div>
-        <input type="text" value={this.state.value} onChange={this.handleChange} />
+        <input
+          style={inputStyling}
+          type="text" 
+          value={this.state.value}
+          autoFocus
+          onChange={this.handleChange}
+          placeholder='Search Product'
+          onKeyPress={event => {
+            if (event.key === 'Enter') {
+              this.handleSubmit()
+            }
+          }}
+        />
         <button onClick={this.handleSubmit}>Submit</button>
       </div>
     )

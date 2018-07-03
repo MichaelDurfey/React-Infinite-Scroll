@@ -12,15 +12,6 @@ class App extends React.Component {
     super(props);
     this.state = {
       data: [],
-      requestSent: false,
-      recordHeight: 50,
-      recordsPerBody: 10,
-      total: 0,
-      visibleStart: 0,
-      visibleEnd: 0,
-      displayStart: 0,
-      displayEnd: 0,
-      scroll: scroll
     }
   }
 
@@ -33,6 +24,9 @@ class App extends React.Component {
       .then(data => {
         this.setState({data: data.data.products})
       })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   handleSearch = (query) => {
@@ -44,6 +38,7 @@ class App extends React.Component {
     <div>
       <NavBar />
       <div className="container">
+        <h3>Welcome to Walmart!</h3>
         <Input handleSubmit={this.handleSearch}/>
         <List data={this.state.data}/>
       </div>
