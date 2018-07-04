@@ -12,6 +12,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       data: [],
+      totalCount: 0,
+      page: 0,
+      query: '',
     }
   }
 
@@ -19,18 +22,36 @@ class App extends React.Component {
     this.fetchData()
   }
 
-  fetchData(query) {
-    callWalmart(query)
+  fetchData(query, page) {
+    query = query || this.state.query;
+      callWalmart(query, page)
       .then(data => {
-        this.setState({data: data.data.products})
+        this.setState(
+          (prev) => (
+            {
+              data: prev.data.concat(data.data.products),
+              totalCount: data.data.totalCount,
+              page,
+            }
+          )
+        )
       })
       .catch(err => {
         console.log(err);
       })
   }
 
+  fetchMoreData(stopIndex) {
+    let page = Math.floor(stopIndex / 15);
+    if (page !== this.state.page) {
+      this.fetchData(null, page);
+      this.setState({page})
+    }
+  }
+
   handleSearch = (query) => {
     this.fetchData(query)
+    this.setState({query})
   }
 
   render() {
@@ -40,7 +61,11 @@ class App extends React.Component {
       <div className="container">
         <h3>Welcome to Walmart!</h3>
         <Input handleSubmit={this.handleSearch}/>
-        <List data={this.state.data}/>
+        <List 
+          fetchMoreData={(stopIndex) => this.fetchMoreData(stopIndex)} 
+          data={this.state.data}
+          totalCount={this.state.totalCount}
+        />
       </div>
     </div>
     );

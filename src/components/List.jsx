@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List } from 'react-virtualized';
+import { List, InfiniteLoader } from 'react-virtualized';
 
 const productStyle = {
   display: 'flex',
@@ -24,6 +24,7 @@ const listStyles = {
     borderColor: '#DDD'
 }
 
+
 const ListEl = (props) => {
   const properties = {
     listHeight: 600,
@@ -34,8 +35,6 @@ const ListEl = (props) => {
   const rowRenderer = ({
     key, 
     index,
-    isScrolling,
-    isVisible,
     style
   }) => (
   <div key={key} style={{...style, ...productStyle}}>
@@ -46,6 +45,14 @@ const ListEl = (props) => {
   </div>
   )
 
+  const isRowLoaded = ({ index }) => {
+    !!props.data[index];
+  }
+
+  const loadMoreRows = ({ startIndex, stopIndex }) => {
+    props.fetchMoreData(stopIndex)
+  }
+
   const {
     listHeight,
     listRowHeight,
@@ -54,14 +61,27 @@ const ListEl = (props) => {
 
   return (
     <div>
-      <List
-        style={listStyles}
-        width={listWidth}
-        height={listHeight}
-        rowCount={props.data.length}
-        rowHeight={listRowHeight}
-        rowRenderer={rowRenderer}
-      />
+      <InfiniteLoader 
+        isRowLoaded={isRowLoaded}
+        loadMoreRows={loadMoreRows}
+        rowCount={props.totalCount}
+        minimumBatchSize={20}
+        threshold={15}
+      >
+      {({onRowsRendered, registerChild}) => (
+          <List
+            style={listStyles}
+            width={listWidth}
+            height={listHeight}
+            rowCount={props.data.length}
+            ref={registerChild}
+            rowHeight={listRowHeight}
+            rowRenderer={rowRenderer}
+            onRowsRendered={onRowsRendered}
+          />
+        )
+      }
+      </InfiniteLoader>
     </div>
   )
 }
