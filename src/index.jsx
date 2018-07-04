@@ -58,7 +58,7 @@ class App extends React.Component {
 
   fetchMoreData(stopIndex) {
     let page = Math.floor(stopIndex / 15);
-    if (page !== this.state.page) {
+    if (page > this.state.page || this.state.page === undefined) {
       this.fetchData(null, page);
       this.setState({page})
     }
