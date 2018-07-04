@@ -29,6 +29,7 @@ class App extends React.Component {
         this.setState({
           data: data.data.products,
           totalCount: data.data.totalCount,
+          query: query,
           page,
         })
       })
@@ -65,7 +66,6 @@ class App extends React.Component {
 
   handleSearch = (query) => {
     this.fetchData(query)
-    this.setState({query})
   }
 
   render() {
