@@ -56,7 +56,8 @@ class App extends React.Component {
   }
 
   fetchMoreData(stopIndex) {
-    let page = Math.floor(stopIndex / 15);
+    // 20 is number of products in each page response
+    let page = Math.floor(stopIndex / 20);
     if (page > this.state.page || this.state.page === undefined) {
       this.fetchData(null, page);
       this.setState({page})
