@@ -23,7 +23,20 @@ class App extends React.Component {
   }
 
   fetchData(query, page) {
-    query = query || this.state.query;
+    if (query) {
+      callWalmart(query, page)
+      .then(data => {
+        this.setState({
+          data: data.data.products,
+          totalCount: data.data.totalCount,
+          page,
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    } else {
+      query = this.state.query;
       callWalmart(query, page)
       .then(data => {
         this.setState(
@@ -39,6 +52,7 @@ class App extends React.Component {
       .catch(err => {
         console.log(err);
       })
+    }
   }
 
   fetchMoreData(stopIndex) {
